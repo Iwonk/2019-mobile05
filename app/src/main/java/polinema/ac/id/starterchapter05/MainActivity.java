@@ -1,8 +1,14 @@
 package polinema.ac.id.starterchapter05;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.View;
+
+import polinema.ac.id.starterchapter05.fragments.dips;
+import polinema.ac.id.starterchapter05.fragments.handstands;
+import polinema.ac.id.starterchapter05.fragments.pushup;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +16,47 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Handstands();
+    }
+
+    public void btn_pushup(View view) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+
+        if (fragment == null || fragment instanceof handstands || fragment instanceof dips){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,R.anim.exit_from_left,R.anim.enter_from_left,R.anim.exit_from_right);
+            fragmentTransaction.replace(R.id.fragment_placeholder,new pushup());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+    public void btn_dips(View view) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+
+        if (fragment == null || fragment instanceof handstands || fragment instanceof pushup){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,R.anim.exit_from_left,R.anim.enter_from_left,R.anim.exit_from_right);
+            fragmentTransaction.replace(R.id.fragment_placeholder,new dips());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+    public void btn_handstand(View view) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+
+        if (fragment == null || fragment instanceof pushup || fragment instanceof dips){
+            Handstands();
+        }
+    }
+
+    public void Handstands(){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left,R.anim.exit_from_left,R.anim.enter_from_left,R.anim.exit_from_right);
+        fragmentTransaction.replace(R.id.fragment_placeholder,new handstands());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
